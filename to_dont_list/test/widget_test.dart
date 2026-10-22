@@ -7,84 +7,130 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:to_dont_list/objects/operations.dart';
 
 import 'package:to_dont_list/main.dart';
-import 'package:to_dont_list/objects/item.dart';
-import 'package:to_dont_list/widgets/to_do_items.dart';
 
 void main() {
-  test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
-    expect(item.abbrev(), "a");
+  testWidgets('Calculator runs', (tester) async{
+    await tester.pumpWidget(const MaterialApp(home: CalculatorApp()));
+    //arrange
+    expect(find.text('Basic Calculator'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.byType(ListView), findsOneWidget);
+    expect(find.text("1"), findsOneWidget);
+    expect(find.text("2"), findsOneWidget);
+    expect(find.text("3"), findsOneWidget);
+    expect(find.text("4"), findsOneWidget);
+    expect(find.text("5"), findsOneWidget);
+    expect(find.text("6"), findsOneWidget);
+    expect(find.text("7"), findsOneWidget);
+    expect(find.text("8"), findsOneWidget);
+    expect(find.text("9"), findsOneWidget);
+    expect(find.text("0"), findsOneWidget);
+    expect(find.text("+"), findsOneWidget);
+    expect(find.text("-"), findsOneWidget);
+    expect(find.text("="), findsOneWidget);
+    expect(find.text("C"), findsOneWidget);
   });
 
-  // Yes, you really need the MaterialApp and Scaffold
-  testWidgets('ToDoListItem has a text', (tester) async {
-    await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
-    final textFinder = find.text('test');
+  testWidgets('Addition Works', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CalculatorApp()));
 
-    // Use the `findsOneWidget` matcher provided by flutter_test to verify
-    // that the Text widgets appear exactly once in the widget tree.
-    expect(textFinder, findsOneWidget);
-  });
-
-  testWidgets('ToDoListItem has a Circle Avatar with abbreviation',
-      (tester) async {
-    await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-            body: ToDoListItem(
-                item: const Item(name: "test"),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
-    final abbvFinder = find.text('t');
-    final avatarFinder = find.byType(CircleAvatar);
-
-    CircleAvatar circ = tester.firstWidget(avatarFinder);
-    Text ctext = circ.child as Text;
-
-    // Use the `findsOneWidget` matcher provided by flutter_test to verify
-    // that the Text widgets appear exactly once in the widget tree.
-    expect(abbvFinder, findsOneWidget);
-    expect(circ.backgroundColor, Colors.black54);
-    expect(ctext.data, "t");
-  });
-
-  testWidgets('Default ToDoList has one item', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
-
-    final listItemFinder = find.byType(ToDoListItem);
-
-    expect(listItemFinder, findsOneWidget);
-  });
-
-  testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
-
-    expect(find.byType(TextField), findsNothing);
-
-    await tester.tap(find.byType(FloatingActionButton));
+    await tester.tap(find.text('1'));
     await tester.pump(); // Pump after every action to rebuild the widgets
-    expect(find.text("hi"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.tap(find.text('+'));
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
 
-    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.tap(find.text('2'));
     await tester.pump();
-    expect(find.text("hi"), findsOneWidget);
 
-    final listItemFinder = find.byType(ToDoListItem);
+    await tester.tap(find.text('='));
+    await tester.pump();
 
-    expect(listItemFinder, findsNWidgets(2));
+    final textfield = tester.widget<TextField>(find.byType(TextField));
+    expect(textfield.controller?.text, equals('3'));
   });
 
+  testWidgets('Subtraction Works', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CalculatorApp()));
+
+    await tester.tap(find.text('3'));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+
+    await tester.tap(find.text('-'));
+    await tester.pump();
+
+    await tester.tap(find.text('2'));
+    await tester.pump();
+
+    await tester.tap(find.text('='));
+    await tester.pump();
+
+    final textfield = tester.widget<TextField>(find.byType(TextField));
+    expect(textfield.controller?.text, equals('1'));
+  });
+
+  testWidgets('History Works', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CalculatorApp()));
+
+    await tester.tap(find.text('1'));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+
+    await tester.tap(find.text('+'));
+    await tester.pump();
+
+    await tester.tap(find.text('2'));
+    await tester.pump();
+
+    await tester.tap(find.text('='));
+    await tester.pump();
+
+    expect(find.text('1 + 2 = 3'), findsOneWidget);
+  });
+
+  testWidgets('Clear Works', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: CalculatorApp()));
+
+    await tester.tap(find.text('1'));
+    await tester.pump(); // Pump after every action to rebuild the widgets
+
+    await tester.tap(find.text('+'));
+    await tester.pump();
+
+    await tester.tap(find.text('2'));
+    await tester.pump();
+
+    await tester.tap(find.text('C'));
+    await tester.pump();
+
+    final textfield = tester.widget<TextField>(find.byType(TextField));
+    expect(textfield.controller?.text, equals(''));
+  });
+
+  test('caculator handles both operations', () {
+    final operation = Operation();
+    operation.addNumber(5);
+    operation.addOperation('+');
+    operation.addNumber(3);
+    operation.addOperation('-');
+    operation.addNumber(2);
+    operation.addOperation('=');
+
+    final result = operation.calculate();
+    expect(result, 6); // 5 + 3 - 2 = 6
+  });
+
+  test('clear removes data', () {
+    final operation = Operation();
+    operation.addNumber(5);
+    operation.addOperation('+');
+    operation.addNumber(3);
+    operation.clear();
+
+    expect(operation.numbers.isEmpty, true);
+    expect(operation.operations.isEmpty, true);
+  });
   // One to test the tap and press actions on the items?
 }

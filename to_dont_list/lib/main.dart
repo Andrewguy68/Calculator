@@ -1,89 +1,126 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
-import 'package:to_dont_list/objects/item.dart';
-import 'package:to_dont_list/widgets/to_do_items.dart';
-import 'package:to_dont_list/widgets/to_do_dialog.dart';
+import 'package:to_dont_list/objects/operations.dart';
+import 'package:to_dont_list/widgets/basic_buttons.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class CalculatorApp extends StatefulWidget {
+  const CalculatorApp({super.key});
 
   @override
-  State createState() => _ToDoListState();
+  State<CalculatorApp> createState() => _CalculatorAppState();
 }
 
-class _ToDoListState extends State<ToDoList> {
-  final List<Item> items = [const Item(name: "add more todos")];
-  final _itemSet = <Item>{};
+class _CalculatorAppState extends State<CalculatorApp> {
+  final List<Item> items = [];
+  String displayText = "";
+  String currentText = "";
+  final Operation operation = Operation();
 
-  void _handleListChanged(Item item, bool completed) {
+  void _buttonPressed(String value) {
     setState(() {
+      if (value == 'C') {
+        displayText = "";
+        currentText = "";
+        operation.clear();
+
+      } else if (value == '+' || value == '-') {
+        if (currentText.isNotEmpty) {
+          operation.addNumber(int.tryParse(currentText) ?? 0);
+          operation.addOperation(value);
+          displayText += value;
+          currentText = "";
+        }
+
+      } else if (value == '=') {
+        if (currentText.isNotEmpty) {
+          operation.addNumber(int.tryParse(currentText) ?? 0);
+          operation.addOperation(value);
+          int answer = operation.calculate();
+          items.insert(0, Item(name: "$displayText = $answer"));
+          currentText += answer.toString();
+          displayText += "= $answer";
+          operation.clear();
+        }
+        displayText = "";
+        currentText = "";
+
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
       // trigger a rebuild.
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
-
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
       } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
+        currentText += value;
+        displayText += value;
       }
-    });
-  }
-
-  void _handleDeleteItem(Item item) {
-    setState(() {
-      print("Deleting item");
-      items.remove(item);
-    });
-  }
-
-  void _handleNewItem(String itemText, TextEditingController textController) {
-    setState(() {
-      print("Adding new item");
-      Item item = const Item(name: "itemText");
-      items.insert(0, item);
-      textController.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('To Do List'),
+        return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Basic Calculator!',
+          style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
         ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
+        centerTitle: true,
+    ),
+    body: Padding(padding: const EdgeInsets.all(12.0),
+    child: Column(children: [
+      TextField(readOnly: true, 
+      controller: TextEditingController(text: displayText),
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        
+      ),
+      ),
+      const SizedBox(height: 20.0),
+      CalculatorButtons(onButtonPressed: _buttonPressed,
+      ),
+      const SizedBox(height: 20.0),
+      const Text("Calculation History", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+      Expanded(
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(
+                items[index].name,
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,),
+              ),
             );
-          }).toList(),
+          },
         ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (_) {
-                    return ToDoDialog(onListAdded: _handleNewItem);
-                  });
-            }));
+      ),
+    ],
+    ),
+    ),
+    );
   }
 }
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'To Do List',
-    home: ToDoList(),
+  runApp(MaterialApp(
+    title: 'Calculator',
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 39, 127, 228),
+        primary: const Color.fromARGB(255, 15, 37, 126),
+        secondary: const Color.fromARGB(235, 126, 34, 246),
+        tertiary: const Color.fromARGB(255, 131, 167, 252),
+      ),
+      useMaterial3: true,
+      textTheme: TextTheme(
+        headlineLarge: GoogleFonts.tektur(fontSize: 35, fontWeight: FontWeight.bold,),
+        headlineMedium: GoogleFonts.rubikSprayPaint(fontSize: 25, fontWeight: FontWeight.bold,),
+        headlineSmall: GoogleFonts.asap(fontSize: 15, fontWeight: FontWeight.bold,),
+      ),
+    ),
+    home: const CalculatorApp(),
   ));
 }
