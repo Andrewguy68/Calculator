@@ -105,6 +105,7 @@ class _CalculatorAppState extends State<CalculatorApp> {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
     title: 'Calculator',
     theme: ThemeData(
