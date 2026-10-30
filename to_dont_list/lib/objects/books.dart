@@ -9,11 +9,11 @@ extension BookStatusX on BookStatus {
   Color get color {
     switch (this) {
       case BookStatus.unopened:
-        return Colors.blue;
+        //return Theme.of(context).primaryColor;
       case BookStatus.started:
-        return Colors.yellow;
+        //return Theme.of(context).secondaryHeaderColor;
       case BookStatus.finished:
-        return Colors.green;
+        //return Theme.of(context).tertiaryHeaderColor;
     }
   }
 

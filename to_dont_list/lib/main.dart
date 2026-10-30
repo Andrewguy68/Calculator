@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:to_dont_list/objects/books.dart';
 import 'package:to_dont_list/widgets/book_list_item.dart';
 import 'package:to_dont_list/widgets/book_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookList extends StatefulWidget {
   const BookList({super.key});
@@ -73,8 +74,22 @@ class _BookListState extends State<BookList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'Book List',
-    home: BookList(),
-  ));
+  runApp(MaterialApp(
+      title: 'Book List',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 184, 92, 12),
+          primary: const Color.fromARGB(255, 97, 153, 217),
+          secondary: const Color.fromARGB(255, 115, 209, 118),
+          tertiary: const Color.fromARGB(255, 210, 28, 70),
+        ),
+        useMaterial3: true,
+        textTheme: TextTheme(
+          headlineLarge: GoogleFonts.ebGaramond(fontSize: 40, fontWeight: FontWeight.bold,),
+          headlineMedium: GoogleFonts.ebGaramond(fontSize: 30, fontWeight: FontWeight.bold,),
+          headlineSmall: GoogleFonts.ebGaramond(fontSize: 20, fontWeight: FontWeight.normal,),
+        ),
+      ),
+      home: const BookList(),
+    ));
 }
