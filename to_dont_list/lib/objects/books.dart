@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 enum BookStatus {unopened, started, finished}
 
 extension BookStatusX on BookStatus {
-  Color get color {
+  Color color(BuildContext context) {
     switch (this) {
       case BookStatus.unopened:
-        //return Theme.of(context).primaryColor;
+        return Theme.of(context).colorScheme.primary;
       case BookStatus.started:
-        //return Theme.of(context).secondaryHeaderColor;
+        return Theme.of(context).colorScheme.secondary;
       case BookStatus.finished:
-        //return Theme.of(context).tertiaryHeaderColor;
+        return Theme.of(context).colorScheme.tertiary;
     }
   }
 
