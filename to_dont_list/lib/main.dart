@@ -49,8 +49,13 @@ class _BookListState extends State<BookList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Book List'),
-        ),
+          title: Text(
+            'Book List',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          centerTitle: true,
+      ),
+
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: books.map((book) {
@@ -61,28 +66,31 @@ class _BookListState extends State<BookList> {
             );
           }).toList(),
         ),
+        //changed color of the action button on the bottom.
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               showDialog(
                   context: context,
                   builder: (_) {
                     return BookDialog(onListAdded: _handleNewBook);
                   });
-            }));
+            },
+            child: const Icon(Icons.add)));
   }
 }
 //added color and text themes
 void main() {
   runApp(MaterialApp(
+
       title: 'Book List',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 184, 92, 12),
+          seedColor: Colors.black,
           primary: const Color.fromARGB(255, 97, 153, 217),
           secondary: const Color.fromARGB(255, 115, 209, 118),
           tertiary: const Color.fromARGB(255, 210, 28, 70),
-          surface: Colors.black,
+          surface: const Color.fromARGB(255, 255, 213, 175),
         ),
         useMaterial3: true,
         textTheme: TextTheme(

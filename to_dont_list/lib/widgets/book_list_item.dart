@@ -17,11 +17,11 @@ class BookListItem extends StatelessWidget {
 
 //changed text style up to include themes and maintained the original line through
   TextStyle? _getTextStyle(BuildContext context) {
-    if (book.status != BookStatus.finished) return null;
+    if (book.status != BookStatus.finished) return Theme.of(context).textTheme.headlineSmall;
     return Theme.of(context).textTheme.headlineSmall!.copyWith(
-      color: Theme.of(context).colorScheme.surface,
       decoration: TextDecoration.lineThrough,
-    );
+      );
+    
   }
 
   @override
