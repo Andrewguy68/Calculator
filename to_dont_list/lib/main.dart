@@ -90,7 +90,6 @@ void main() {
           primary: const Color.fromARGB(255, 97, 153, 217),
           secondary: const Color.fromARGB(255, 115, 209, 118),
           tertiary: const Color.fromARGB(255, 210, 28, 70),
-          surface: const Color.fromARGB(255, 255, 213, 175),
         ),
         useMaterial3: true,
         textTheme: TextTheme(
