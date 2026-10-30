@@ -15,9 +15,10 @@ class BookListItem extends StatelessWidget {
   final BookStatusChangedCallback onStatusChanged;
   final BookRemovedCallback onDeleteItem;
 
+//changed text style up to include themes and maintained the original line through
   TextStyle? _getTextStyle(BuildContext context) {
     if (book.status != BookStatus.finished) return null;
-    return Theme.of(context).textTheme.headlineSmall?.copyWith(
+    return Theme.of(context).textTheme.headlineSmall!.copyWith(
       color: Theme.of(context).colorScheme.surface,
       decoration: TextDecoration.lineThrough,
     );
@@ -34,11 +35,13 @@ class BookListItem extends StatelessWidget {
       },
       leading: CircleAvatar(
         radius: 30,
+        //changed call to include new context
         backgroundColor: book.status.color(context),
         child: Text(book.getStatus()),
       ),
       title: Text(
         book.title,
+        //changed call to include new context
         style: _getTextStyle(context),
       ),
       subtitle: book.author.isNotEmpty ? Text(book.author) : null,

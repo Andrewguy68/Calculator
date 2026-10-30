@@ -21,16 +21,23 @@ class _BookDialogState extends State<BookDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
 
-  final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
-  final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
-
   String titleText = "";
   String authorText = "";
 
   @override
+  //moved the buttons here to allow for context. And added calls to text and color theme
   Widget build(BuildContext context) {
+    final ButtonStyle yesStyle = ElevatedButton.styleFrom(
+      textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+        color: Theme.of(context).colorScheme.secondary,
+      ),
+    );
+    final ButtonStyle noStyle = ElevatedButton.styleFrom(
+      textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+        color: Theme.of(context).colorScheme.tertiary,
+      ),
+    );
+
     return AlertDialog(
       title: const Text('Book To Add'),
       content: Column(

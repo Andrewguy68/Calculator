@@ -72,7 +72,7 @@ class _BookListState extends State<BookList> {
             }));
   }
 }
-
+//added color and text themes
 void main() {
   runApp(MaterialApp(
       title: 'Book List',
