@@ -5,12 +5,12 @@ import 'package:to_dont_list/widgets/to_do_items.dart';
 
 final ThemeData theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.green).copyWith(
-    primary: Colors.green,
-    onPrimary: const Color.fromARGB(255, 19, 65, 20),
-    secondary: Colors.blue,
-    onSecondary: const Color.fromARGB(255, 10, 53, 88),
+    primary: const Color.fromARGB(255, 91, 230, 96),
+    onPrimary: const Color.fromARGB(255, 36, 115, 38),
+    secondary: const Color.fromARGB(255, 86, 174, 247),
+    onSecondary: const Color.fromARGB(255, 25, 94, 150),
     tertiary: Colors.red,
-    onTertiary: const Color.fromARGB(255, 95, 20, 15),
+    onTertiary: const Color.fromARGB(255, 136, 36, 29),
     
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -37,7 +37,11 @@ class FireZone
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onTertiary,
-      appBar: AppBar(title: const Text('Fire Zone')),
+      appBar: AppBar(
+        title: const Text('Fire Zone'),
+        centerTitle: true,
+        titleTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+      ),
       body: const Center(
         child: Text('Tap To Catch Fire Pokemon!')
       ),
@@ -55,7 +59,8 @@ class GrassZone
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      appBar: AppBar(title: const Text('Grass Zone')),
+      appBar: AppBar(title: const Text('Grass Zone'), centerTitle: true,
+        titleTextStyle: const TextStyle(fontWeight: FontWeight.bold),),
       body: const Center(
         child: Text('Tap To Catch Grass Pokemon!')
       ),
@@ -73,7 +78,8 @@ class WaterZone
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
-      appBar: AppBar(title: const Text('Water Zone')),
+      appBar: AppBar(title: const Text('Water Zone'), centerTitle: true,
+        titleTextStyle: const TextStyle(fontWeight: FontWeight.bold),),
       body: const Center(
         child: Text('Tap To Catch Water Pokemon!')
       ),
@@ -174,10 +180,10 @@ class _ToDoListState extends State<ToDoList> {
                     ()),
                     );
                   },
-                  tooltip: 'Open Screen',
+                  tooltip: 'Open Fire Zone',
                   backgroundColor: colors.tertiary,
                   foregroundColor: colors.onTertiary,
-                  child: const Icon(Icons.arrow_upward),
+                  child: const Icon(Icons.local_fire_department),
                 ),
               ),
             //Grass Type Zone
@@ -189,9 +195,10 @@ class _ToDoListState extends State<ToDoList> {
                     ()),
                     );
                   },
+                  tooltip: 'Open Grass Zone',
                   backgroundColor: colors.primary,
                   foregroundColor: colors.onPrimary,
-                  child: const Icon(Icons.arrow_upward),
+                  child: const Icon(Icons.grass),
                 ),
               ),
             //Water Type Zone
@@ -203,9 +210,10 @@ class _ToDoListState extends State<ToDoList> {
                     ()),
                     );
                 },
+                tooltip: 'Open Water Zone',
                 backgroundColor: colors.secondary,
                 foregroundColor: colors.onSecondary,
-                child: const Icon(Icons.arrow_upward),
+                child: const Icon(Icons.waves),
               ),
             ),
           ],
