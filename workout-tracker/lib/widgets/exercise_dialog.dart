@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/objects/exercise.dart';
 
-typedef ExerciseAddedCallback = Function(
-    String value, MuscleGroup targetMuscle, TextEditingController textController);
+typedef ExerciseAddedCallback = Function(String value, MuscleGroup targetMuscle,
+    TextEditingController textController);
 
 class ExerciseDialog extends StatefulWidget {
   const ExerciseDialog({
@@ -18,10 +18,6 @@ class ExerciseDialog extends StatefulWidget {
 
 class _ExerciseDialogState extends State<ExerciseDialog> {
   final TextEditingController _inputController = TextEditingController();
-  final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
-  final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   String valueText = "";
   MuscleGroup valueMuscle = MuscleGroup.chest;
@@ -39,7 +35,8 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
               });
             },
             controller: _inputController,
-            decoration: const InputDecoration(hintText: "type exercise name here"),
+            decoration:
+                const InputDecoration(hintText: "type exercise name here"),
           ),
           // setState() here updates the valueMuscle variable
           // also hides the drop down, showing the sekleted muscle target
@@ -61,26 +58,23 @@ class _ExerciseDialogState extends State<ExerciseDialog> {
         ],
       ),
       actions: <Widget>[
-        ElevatedButton(
+        TextButton(
           key: const Key('CancelButton'),
-          style: noStyle,
-          child: const Text('Cancel'),
           onPressed: () {
-            setState(() {
-              Navigator.pop(context);
-            });
+            Navigator.pop(context);
           },
+          child: const Text('Cancel'),
         ),
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _inputController,
           builder: (context, value, child) {
             return ElevatedButton(
               key: const Key("OKButton"),
-              style: yesStyle,
               onPressed: value.text.isNotEmpty
                   ? () {
                       setState(() {
-                        widget.onListAdded(valueText, valueMuscle, _inputController);
+                        widget.onListAdded(
+                            valueText, valueMuscle, _inputController);
                         Navigator.pop(context);
                       });
                     }

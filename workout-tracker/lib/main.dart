@@ -5,6 +5,33 @@ import 'package:workout_tracker/objects/exercise.dart';
 import 'package:workout_tracker/widgets/exercise_list_item.dart';
 import 'package:workout_tracker/widgets/exercise_dialog.dart';
 
+final ThemeData workoutTheme = ThemeData(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 84, 215, 204),
+  ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color.fromARGB(255, 15, 118, 110),
+    foregroundColor: Color.fromARGB(255, 205, 184, 184),
+    titleTextStyle: TextStyle(
+      fontSize: 24,
+      color: Color.fromARGB(255, 0, 0, 0),
+    ),
+  ),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(fontSize: 24),
+    titleMedium: TextStyle(fontSize: 18),
+    bodyLarge: TextStyle(fontSize: 16),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: const Color.fromARGB(255, 87, 171, 189),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+  ),
+);
+
 // swap out the old list stuff for new WorkoutList/WorkoutTracker stuff
 class WorkoutList extends StatefulWidget {
   const WorkoutList({super.key});
@@ -65,8 +92,9 @@ class _WorkoutListState extends State<WorkoutList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'Workout Tracker',
+    theme: workoutTheme,
     home: WorkoutList(),
   ));
 }
