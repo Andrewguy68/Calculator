@@ -14,24 +14,19 @@ class ToDoListItem extends StatelessWidget {
   final Pokemon item;
   final bool caught;
 
-  Color getTypeColor() {
-   switch (item.type){
-    case "fire":
-    return Colors.red;
-    case "grass":
-    return Colors.green;
-    case "water":
-    return Colors.blue;
-    default:
-    return Colors.black;
-   }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final typeColor = switch (item.type) {
+      "fire" => colors.tertiary,
+      "grass" => colors.primary,
+      "water" => colors.secondary,
+      _ => Colors.grey,
+    };
+
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: getTypeColor(),
+        backgroundColor: typeColor,
         child: Text(item.abbrev()),
       ),
       title: Text(item.name),

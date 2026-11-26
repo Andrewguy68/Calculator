@@ -18,15 +18,12 @@ class ToDoDialog extends StatefulWidget {
 class _ToDoDialogState extends State<ToDoDialog> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
-  final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
-  final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   String valueText = "";
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return AlertDialog(
       title: const Text('Item To Add'),
       content: TextField(
@@ -41,7 +38,10 @@ class _ToDoDialogState extends State<ToDoDialog> {
       actions: <Widget>[
         ElevatedButton(
           key: const Key("CancelButton"),
-          style: noStyle,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: colors.tertiary,
+            foregroundColor: colors.onTertiary,
+          ),
           child: const Text('Cancel'),
           onPressed: () {
             setState(() {
@@ -56,7 +56,6 @@ class _ToDoDialogState extends State<ToDoDialog> {
           builder: (context, value, child) {
             return ElevatedButton(
               key: const Key("OKButton"),
-              style: yesStyle,
               onPressed: value.text.isNotEmpty
                   ? () {
                       setState(() {
